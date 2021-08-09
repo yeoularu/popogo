@@ -10,9 +10,10 @@ dotenv.config({
 });
 
 const app = express();
-let query = "express";
 
 app.get("/translate", (req, res) => {
+  let query = req.body;
+
   const api_url = "https://openapi.naver.com/v1/papago/n2mt";
   const request = require("request");
   const options = {

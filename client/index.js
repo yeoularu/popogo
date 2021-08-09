@@ -5,4 +5,13 @@ function selectText() {
   return window.getSelection().toString();
 }
 
-window.onmouseup = () => console.log(selectText());
+window.onmouseup = () => {
+  fetch('http://127.0.0.1:3000/translate', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: "something"
+  })
+  .then(res => console.log(res));
+};
