@@ -1,18 +1,19 @@
-function selectText() {
-  if (window.getSelection().toString().length == 0) {
-    return;
-  }
-  return window.getSelection().toString();
-}
+let selectedText = "";
 
-window.onmouseup = () => {
-  fetch('http://127.0.0.1:3000/translate', {
-    method: 'POST',
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      text: "hi"
+document.onmouseup = () => {
+  if (document.getSelection().toString().length > 0) {
+    selectedText = document.getSelection().toString()
+    
+    console.log(selectedText);
+
+    fetch("http://127.0.0.1:3000/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: selectedText
+      }),
     })
-  })
-  .then(res => res.json())
-  .then(res => console.log(res));
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
 };

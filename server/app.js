@@ -14,8 +14,11 @@ const app = express();
 
 app.use(cors());
 
+app.use(express.json())
+
 app.post("/translate", (req, res) => {
-  let query = "wtf";
+
+  const query = req.body.text;
 
   const api_url = "https://openapi.naver.com/v1/papago/n2mt";
   const request = require("request");
