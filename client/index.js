@@ -1,11 +1,15 @@
-
 let selectedText = "",
   translatedText = "";
 
 document.onmouseup = () => {
   if (document.getSelection().toString().length > 0) {
-    selectedText = document.getSelection().toString();
+    const selObj = document.getSelection(),
+      selectedText = selObj.toString();
+    
+    document.getElementById("textSource").value = "";
 
+    console.log(textSource);
+    console.log(selObj);
     console.log(selectedText);
 
     fetch("http://127.0.0.1:3000/translate", {
