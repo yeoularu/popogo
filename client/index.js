@@ -1,15 +1,12 @@
 let selectedText = "",
   translatedText = "";
 
-document.onmouseup = () => {
-  if (document.getSelection().toString().length > 0) {
-    const selObj = document.getSelection(),
-      selectedText = selObj.toString();
-    
-    document.getElementById("textSource").value = "";
+const selObj = document.getSelection();
 
-    console.log(textSource);
-    console.log(selObj);
+document.onmouseup = () => {
+  if (selObj.toString().length > 0) {
+    const selectedText = selObj.toString();
+
     console.log(selectedText);
 
     fetch("http://127.0.0.1:3000/translate", {
@@ -22,7 +19,19 @@ document.onmouseup = () => {
       .then((res) => res.json())
       .then((res) => {
         translatedText = res.message.result.translatedText;
+
+        const textarea = document.getElementById("textSource"),
+          indexStart = textarea.selectionStart,
+          indexEnd = textarea.selectionEnd;
         console.log(translatedText);
+        console.log(indexStart);
+        console.log(indexEnd);
+        textarea.value =
+          textarea.value.substring(0, indexEnd) +
+          "(" +
+          translatedText +
+          ") " +
+          textarea.value.substring(indexEnd);
       });
   }
 };
