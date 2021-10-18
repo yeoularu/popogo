@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Popogo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div class="logo">
+          <img class="symbol" src="public/images/logo.svg" />
+          <img class="logotype" src="public/images/popogo.svg" />
+        </div>
+        <div class="menu">
+          <button>About</button>
+          <button>How to use</button>
+        </div>
+        <div class="dark-mode">dark mode</div>
+      </header>
+      <div class="translation">
+        <p class="translation-text">번역된 텍스트</p>
+        <p class="selected-text">선택된 텍스트</p>
+        <button class="translation-naver-dictionary">Naver 영어사전</button>
+        <button class="translation-google">Google 검색</button>
+      </div>
+      <section>
+        <textarea
+          class="textarea"
+          placeholder="읽을 내용을 입력하세요. 번역할 내용을 드래그하세요."
+          spellcheck="false"
+          oninput="resize(this)"
+          onselect="translateText()"
+        ></textarea>
+      </section>
+    </div>
+    <footer>
+      <p class="developed-by">
+        Developed by
+        <a href="https://yeoularu.github.io/pages/about" target="_blank"
+          >yeoularu</a
+        >.
+      </p>
+      <img
+        class="powered-by"
+        src="public/images/Powered_by_NAVER_OpenAPI.svg"
+      />
+    </footer>
+  </body>
+</html>
