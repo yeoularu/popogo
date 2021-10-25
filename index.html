@@ -4,36 +4,32 @@
     <title>Popogo</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="public/logo.ico" />
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="index.js"></script>
+    <script async src="index.js"></script>
   </head>
   <body>
     <div class="wrapper">
       <header>
         <div class="logo">
-          <img class="symbol" src="public/images/logo.svg" />
-          <img class="logotype" src="public/images/popogo.svg" />
+          <a href="https://yeoularu.github.io/popogo">
+            <img class="symbol" src="public/images/logo.svg" />
+            <img class="logotype" src="public/images/popogo.svg" />
+          </a>
         </div>
         <div class="menu">
-          <button>About</button>
-          <button>How to use</button>
+          <button onclick="msgAbout()">About</button>
+          <button onclick="msgHowToUse()">How to use</button>
         </div>
-        <div class="dark-mode">dark mode</div>
+        <div class="dark-mode">dark</div>
       </header>
-      <div class="translation">
-        <p class="translation-text">번역된 텍스트</p>
-        <p class="selected-text">선택된 텍스트</p>
-        <button class="translation-naver-dictionary">Naver 영어사전</button>
-        <button class="translation-google">Google 검색</button>
-      </div>
       <section>
-        <textarea
-          class="textarea"
+        <div
+          id="textarea"
           placeholder="읽을 내용을 입력하세요. 번역할 내용을 드래그하세요."
           spellcheck="false"
-          oninput="resize(this)"
-          onselect="translateText()"
-        ></textarea>
+          contenteditable="plaintext-only"
+        ></div>
       </section>
     </div>
     <footer>
@@ -43,10 +39,17 @@
           >yeoularu</a
         >.
       </p>
-      <img
-        class="powered-by"
-        src="public/images/Powered_by_NAVER_OpenAPI.svg"
-      />
+      <a href="http://developers.naver.com" target="_blank">
+        <img
+          class="powered-by"
+          src="public/images/Powered_by_NAVER_OpenAPI.svg"
+        />
+      </a>
     </footer>
+    <div class="modal">
+      <p class="modal-text">번역된 텍스트</p>
+      <button class="modal-naver-dictionary">Naver 영어사전</button>
+      <button class="modal-google">Google 검색</button>
+    </div>
   </body>
 </html>
