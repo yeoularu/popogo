@@ -1,18 +1,42 @@
 const VERSION = "0.1.0";
 const TEXTAREA = document.getElementById("textarea");
+const MODAL = document.getElementById("modal");
 
 let SELECTED_BEFORE = "";
+let TRANSLATED_BEFORE = "";
 
-document.onmouseup = () => {
+/*
+function closeModal(e) {
+  console.log(e.target.id);
+  if (MODAL.style.display === "inline-block" && e.target.id !== "modal") {
+    MODAL.style.display = "none";
+  }
+}
+*/
+
+window.addEventListener("keyup", (e) => {
+  if (MODAL.style.display === "inline-block" && e.key === "Escape") {
+    MODAL.style.display = "none";
+  }
+});
+
+TEXTAREA.addEventListener("click", translateText);
+
+function translateText() {
   const selection = document.getSelection();
 
   if (selection.toString().length > 0) {
     const selectedText = selection.toString();
-    console.log(selectedText);
 
-    if (selectedText !== SELECTED_BEFORE) {
+    const rect = selection.getRangeAt(0).getBoundingClientRect();
+    const modalText = document.getElementById("modal-text");
+
+    if (selectedText === SELECTED_BEFORE) {
+      modalText.innerHTML = TRANSLATED_BEFORE;
+    } else {
       SELECTED_BEFORE = selectedText;
-      let translatedText = "";
+
+      modalText.innerHTML = "번역중...";
 
       fetch("https://popogo-server.herokuapp.com/", {
         method: "POST",
@@ -23,12 +47,15 @@ document.onmouseup = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          translatedText = res.message.result.translatedText;
-          console.log(translatedText);
+          modalText.innerHTML = res.message.result.translatedText;
+          TRANSLATED_BEFORE = res.message.result.translatedText;
         });
     }
+    MODAL.style.display = "inline-block";
+    MODAL.style.left = rect.left + "px";
+    MODAL.style.top = rect.top + rect.height + 8 + "px";
   }
-};
+}
 
 function checkBrowser() {
   const agt = navigator.userAgent.toLowerCase();
@@ -36,6 +63,17 @@ function checkBrowser() {
     TEXTAREA.innerHTML =
       "죄송합니다. FireFox 브라우저는 아직 지원하지 않습니다.";
   }
+}
+
+function openNaverDictionary() {
+  window.open(
+    `https://en.dict.naver.com/#/search?query=${SELECTED_BEFORE}`,
+    "_blank"
+  );
+}
+
+function openGoogleSearch() {
+  window.open(`https://www.google.com/search?q=${SELECTED_BEFORE}`, "_blank");
 }
 
 function msgAbout() {

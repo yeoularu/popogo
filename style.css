@@ -126,6 +126,46 @@ footer {
 
 .modal {
   display: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  max-width: 468px;
+  padding: 22px 30px 30px 30px;
+  border: 1px solid #ededed;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%), 0 0 1px 0 rgb(0 0 0 / 30%);
+}
+
+.modal-text {
+  line-height: 1.5rem;
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-btns button {
+  padding: 0;
+  border: 0;
+  margin-top: 20px;
+  background-color: transparent;
+}
+
+.modal-btns button:hover {
+  cursor: pointer;
+}
+
+.modal-naver-dictionary {
+  color: #03c75a;
+}
+
+.modal-google {
+  color: rgb(66 133 244);
 }
 
 @media screen and (max-width: 767px) {

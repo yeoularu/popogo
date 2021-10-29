@@ -46,10 +46,16 @@
         />
       </a>
     </footer>
-    <div class="modal">
-      <p class="modal-text">번역된 텍스트</p>
-      <button class="modal-naver-dictionary">Naver 영어사전</button>
-      <button class="modal-google">Google 검색</button>
+    <div class="modal" id="modal">
+      <p class="modal-text" id="modal-text"></p>
+      <div class="modal-btns">
+        <button class="modal-naver-dictionary" onclick="openNaverDictionary()">
+          Naver 사전
+        </button>
+        <button class="modal-google" onclick="openGoogleSearch()">
+          Google 검색
+        </button>
+      </div>
     </div>
   </body>
 </html>
