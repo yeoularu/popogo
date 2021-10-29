@@ -5,56 +5,74 @@ const MODAL = document.getElementById("modal");
 let SELECTED_BEFORE = "";
 let TRANSLATED_BEFORE = "";
 
-/*
-function closeModal(e) {
+function closeModalByClick(e) {
   console.log(e.target.id);
   if (MODAL.style.display === "inline-block" && e.target.id !== "modal") {
     MODAL.style.display = "none";
   }
 }
-*/
 
-window.addEventListener("keyup", (e) => {
-  if (MODAL.style.display === "inline-block" && e.key === "Escape") {
-    MODAL.style.display = "none";
-  }
-});
+function addELcloseModalByClick() {
+  window.addEventListener("click", closeModalByClick);
+}
 
-TEXTAREA.addEventListener("click", translateText);
+function removeELcloseModalByClick() {
+  window.removeEventListener("click", closeModalByClick);
+}
+
+function addELcloseModalByESC() {
+  window.addEventListener("keyup", (e) => {
+    if (MODAL.style.display === "inline-block" && e.key === "Escape") {
+      MODAL.style.display = "none";
+    }
+  });
+}
+
+function addELtranslate() {
+  TEXTAREA.addEventListener("click", translateText);
+}
 
 function translateText() {
   const selection = document.getSelection();
+  const selectedText = selection.toString();
 
-  if (selection.toString().length > 0) {
-    const selectedText = selection.toString();
+  if (selectedText.length === 0) {
+    return;
+  }
 
-    const rect = selection.getRangeAt(0).getBoundingClientRect();
-    const modalText = document.getElementById("modal-text");
+  const modalText = document.getElementById("modal-text");
+  const rect = selection.getRangeAt(0).getBoundingClientRect();
 
-    if (selectedText === SELECTED_BEFORE) {
-      modalText.innerHTML = TRANSLATED_BEFORE;
-    } else {
-      SELECTED_BEFORE = selectedText;
-
-      modalText.innerHTML = "번역중...";
-
-      fetch("https://popogo-server.herokuapp.com/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text: selectedText,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          modalText.innerHTML = res.message.result.translatedText;
-          TRANSLATED_BEFORE = res.message.result.translatedText;
-        });
-    }
+  function showModal() {
     MODAL.style.display = "inline-block";
     MODAL.style.left = rect.left + "px";
     MODAL.style.top = rect.top + rect.height + 8 + "px";
   }
+
+  if (selectedText === SELECTED_BEFORE) {
+    modalText.innerHTML = TRANSLATED_BEFORE;
+    showModal();
+    return;
+  }
+
+  SELECTED_BEFORE = selectedText;
+
+  modalText.innerHTML = "번역중...";
+
+  fetch("https://popogo-server.herokuapp.com/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      text: selectedText,
+    }),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      modalText.innerHTML = res.message.result.translatedText;
+      TRANSLATED_BEFORE = res.message.result.translatedText;
+    });
+
+  showModal();
 }
 
 function checkBrowser() {
@@ -62,6 +80,7 @@ function checkBrowser() {
   if (agt.indexOf("firefox") != -1) {
     TEXTAREA.innerHTML =
       "죄송합니다. FireFox 브라우저는 아직 지원하지 않습니다.";
+    return "ff";
   }
 }
 
@@ -119,4 +138,10 @@ function msgHowToUse() {
 
 (function init() {
   checkBrowser();
+  console.log(checkBrowser());
+  if (checkBrowser() === "ff") {
+    return;
+  }
+  addELtranslate();
+  addELcloseModalByESC();
 })();
