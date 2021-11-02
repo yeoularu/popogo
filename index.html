@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="public/logo.ico" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script async src="index.js"></script>
+    <script async src="dark-mode.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -14,14 +15,18 @@
         <div class="logo">
           <a href="https://yeoularu.github.io/popogo">
             <img class="symbol" src="public/images/logo.svg" />
-            <img class="logotype" src="public/images/popogo.svg" />
+            <img
+              class="logotype"
+              id="logotype"
+              src="public/images/popogo.svg"
+            />
           </a>
         </div>
         <div class="menu">
-          <button onclick="msgAbout()">About</button>
-          <button onclick="msgHowToUse()">How to use</button>
+          <span onclick="msgAbout()">About</span>
+          <span onclick="msgHowToUse()">How to use</span>
         </div>
-        <div class="dark-mode">dark</div>
+        <button class="dark-mode" id="toggle-theme">dark</button>
       </header>
       <section>
         <div
@@ -32,7 +37,7 @@
         ></div>
       </section>
     </div>
-    <footer>
+    <footer id="footer">
       <p class="developed-by">
         Developed by
         <a href="https://yeoularu.github.io/pages/about" target="_blank"
@@ -49,12 +54,10 @@
     <div class="modal" id="modal">
       <p class="modal-text" id="modal-text"></p>
       <div class="modal-btns">
-        <button class="modal-naver-dictionary" onclick="openNaverDictionary()">
+        <button class="modal-naver-dictionary" id="modal-naver-dictionary">
           Naver 사전
         </button>
-        <button class="modal-google" onclick="openGoogleSearch()">
-          Google 검색
-        </button>
+        <button class="modal-google" id="modal-google">Google 검색</button>
       </div>
     </div>
   </body>

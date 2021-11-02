@@ -1,28 +1,26 @@
 const VERSION = "0.1.0";
+
 const TEXTAREA = document.getElementById("textarea");
 const MODAL = document.getElementById("modal");
 
 let SELECTED_BEFORE = "";
 let TRANSLATED_BEFORE = "";
 
-function closeModalByClick(e) {
-  console.log(e.target.id);
-  if (MODAL.style.display === "inline-block" && e.target.id !== "modal") {
-    MODAL.style.display = "none";
-  }
+function isModalOn() {
+  return MODAL.style.display === "inline-block";
 }
 
 function addELcloseModalByClick() {
-  window.addEventListener("click", closeModalByClick);
-}
-
-function removeELcloseModalByClick() {
-  window.removeEventListener("click", closeModalByClick);
+  window.addEventListener("mousedown", (e) => {
+    if (isModalOn() && !e.path.map((elem) => elem.id).includes("modal")) {
+      MODAL.style.display = "none";
+    }
+  });
 }
 
 function addELcloseModalByESC() {
   window.addEventListener("keyup", (e) => {
-    if (MODAL.style.display === "inline-block" && e.key === "Escape") {
+    if (isModalOn() && e.key === "Escape") {
       MODAL.style.display = "none";
     }
   });
@@ -49,9 +47,16 @@ function translateText() {
     MODAL.style.top = rect.top + rect.height + 8 + "px";
   }
 
+  if (selectedText.length >= 1000) {
+    modalText.innerHTML = `😢 1000글자 까지만 번역하실 수 있습니다. 선택된 글자 수 : ${selectedText.length}`;
+    showModal();
+    return;
+  }
+
   if (selectedText === SELECTED_BEFORE) {
     modalText.innerHTML = TRANSLATED_BEFORE;
     showModal();
+
     return;
   }
 
@@ -66,10 +71,22 @@ function translateText() {
       text: selectedText,
     }),
   })
-    .then((res) => res.json())
+    .then((res) => {
+      if (res.statusCode === 429) {
+        console.log("한도초과");
+        return;
+      } else if (res.statusCode === 200) {
+        return res.json();
+      } else {
+        throw new Error("Unexpected Http Status code");
+      }
+    })
     .then((res) => {
       modalText.innerHTML = res.message.result.translatedText;
       TRANSLATED_BEFORE = res.message.result.translatedText;
+    })
+    .catch((error) => {
+      console.log(error);
     });
 
   showModal();
@@ -84,15 +101,26 @@ function checkBrowser() {
   }
 }
 
-function openNaverDictionary() {
-  window.open(
-    `https://en.dict.naver.com/#/search?query=${SELECTED_BEFORE}`,
-    "_blank"
-  );
+function addELopenNaverDictionary() {
+  document
+    .getElementById("modal-naver-dictionary")
+    .addEventListener("click", () =>
+      window.open(
+        `https://en.dict.naver.com/#/search?query=${SELECTED_BEFORE}`,
+        "_blank"
+      )
+    );
 }
 
-function openGoogleSearch() {
-  window.open(`https://www.google.com/search?q=${SELECTED_BEFORE}`, "_blank");
+function addELopenGoogleSearch() {
+  document
+    .getElementById("modal-google")
+    .addEventListener("click", () =>
+      window.open(
+        `https://www.google.com/search?q=${SELECTED_BEFORE}`,
+        "_blank"
+      )
+    );
 }
 
 function msgAbout() {
@@ -138,10 +166,12 @@ function msgHowToUse() {
 
 (function init() {
   checkBrowser();
-  console.log(checkBrowser());
   if (checkBrowser() === "ff") {
     return;
   }
   addELtranslate();
+  addELopenNaverDictionary();
+  addELopenGoogleSearch();
   addELcloseModalByESC();
+  addELcloseModalByClick();
 })();
