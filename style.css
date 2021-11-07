@@ -3,8 +3,13 @@
 html {
   --bg-color: #fff;
   --text-color: #232323;
+  --logo-color: #50505f;
+  --dark-theme-eclipse: transparent;
+  --textarea-focus-color: #ff4d00;
   --selection-bg-color: rgba(255, 77, 0, 0.25);
   --footer-bg-color: #fbfbfb;
+  --powered-by-color: #808080;
+  --open-api-color: #333333;
 }
 
 body {
@@ -16,9 +21,14 @@ body {
 
 html.dark {
   --bg-color: #232323;
-  --text-color: #ddd;
+  --text-color: #eee;
+  --logo-color: white;
+  --dark-theme-eclipse: #232323;
+  --textarea-focus-color: rgba(255, 146, 100, 1);
   --selection-bg-color: rgba(255, 146, 100, 0.25);
   --footer-bg-color: #1a1a1a;
+  --powered-by-color: white;
+  --open-api-color: white;
 }
 
 .wrapper {
@@ -49,6 +59,7 @@ header {
 
 .logo .logotype {
   width: 96px;
+  fill: var(--logo-color);
 }
 
 .menu {
@@ -61,15 +72,25 @@ header {
 }
 
 .menu span {
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .menu span:hover {
   cursor: pointer;
 }
 
-.dark-mode {
-  margin-right: 30px;
+.dark-theme {
+  width: 30px;
+  height: 30px;
+  margin: 20px 30px 0 0;
+}
+
+.dark-theme:hover {
+  cursor: pointer;
+}
+
+.dark-theme .eclipse {
+  fill: var(--dark-theme-eclipse);
 }
 
 section {
@@ -102,7 +123,7 @@ section div:empty:before {
 
 section div:focus {
   outline: none;
-  border-color: #ff4d00;
+  border-color: var(--textarea-focus-color);
 }
 
 section div::selection {
@@ -121,18 +142,26 @@ footer {
 
 .developed-by {
   font-size: 0.75rem;
-  color: #808080;
+  color: var(--powered-by-color);
 }
 
 .developed-by a:link,
 .developed-by a:visited {
   text-decoration: none;
-  color: #ff4d00;
+  color: var(--textarea-focus-color);
 }
 
 .powered-by {
   margin-top: 5px;
   width: 150px;
+}
+
+.svg--powered-by {
+  fill: var(--powered-by-color);
+}
+
+.svg--open-api {
+  fill: var(--open-api-color);
 }
 
 .modal {
@@ -145,7 +174,7 @@ footer {
   padding: 22px 30px 30px 30px;
   border: 1px solid #ededed;
   border-radius: 3px;
-  background-color: white;
+  background-color: var(--bg-color);
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%), 0 0 1px 0 rgb(0 0 0 / 30%);
 }
 
@@ -198,11 +227,11 @@ footer {
   }
 
   .menu span {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   section {
-    padding: 0;
+    padding: 5px;
   }
 
   .developed-by {

@@ -71,22 +71,14 @@ function translateText() {
       text: selectedText,
     }),
   })
-    .then((res) => {
-      if (res.statusCode === 429) {
-        console.log("한도초과");
-        return;
-      } else if (res.statusCode === 200) {
-        return res.json();
-      } else {
-        throw new Error("Unexpected Http Status code");
-      }
-    })
+    .then((res) => res.json())
     .then((res) => {
       modalText.innerHTML = res.message.result.translatedText;
       TRANSLATED_BEFORE = res.message.result.translatedText;
     })
     .catch((error) => {
       console.log(error);
+      modalText.innerHTML = `ERROR: ${error.message}`;
     });
 
   showModal();
@@ -123,9 +115,10 @@ function addELopenGoogleSearch() {
     );
 }
 
-function msgAbout() {
-  TEXTAREA.innerHTML =
-    `------
+function addELmsgAbout() {
+  document.getElementById("msg-about").addEventListener("click", () => {
+    TEXTAREA.innerHTML =
+      `------
 
 Popogo는 영어 원문을 읽을 때 번거로운 번역 과정을 줄여주는 서비스입니다.
 
@@ -142,26 +135,30 @@ Developed by yeoularu
 
 ` + TEXTAREA.innerHTML;
 
-  TEXTAREA.focus();
+    TEXTAREA.focus();
+  });
 }
 
-function msgHowToUse() {
-  TEXTAREA.innerHTML =
-    `------
+function addELmsgHowToUse() {
+  document.getElementById("msg-how-to-use").addEventListener("click", () => {
+    TEXTAREA.innerHTML =
+      `------
 
 1. 읽고 싶은 영어 원문을 복사해 여기에 붙여넣습니다.
 
-2. 번역하고 싶은 단어나 문장을 드래그하여 번역합니다.
+2. 번역하고 싶은 단어나 문장을 마우스 드래그해 번역합니다.
 
-*주의* 
+3. 우측 상단 노란색 버튼을 클릭해 테마를 변경합니다.
+
 - 한 번에 최대 1,000글자까지 번역 가능합니다.
-- 하루 10,000글자로 사용량이 제한되어있어 남용 자제를 부탁드립니다.
+- 하루 10,000글자로 사용량이 제한됩니다.
 
 ------
 
 ` + TEXTAREA.innerHTML;
 
-  TEXTAREA.focus();
+    TEXTAREA.focus();
+  });
 }
 
 (function init() {
@@ -174,4 +171,6 @@ function msgHowToUse() {
   addELopenGoogleSearch();
   addELcloseModalByESC();
   addELcloseModalByClick();
+  addELmsgAbout();
+  addELmsgHowToUse();
 })();
